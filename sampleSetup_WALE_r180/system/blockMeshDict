@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 | 
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           | 
-|  \\    /   O peration     | Version:  2.2.0                                 | 
+|  \\    /   O peration     | Version:  3.0.1                                 | 
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      | 
 |    \\/     M anipulation  |                                                 | 
 \*---------------------------------------------------------------------------*/ 
@@ -104,7 +104,7 @@ boundary
 (
    inlet
    {
-       type cyclic;
+       type 		cyclic;
        neighbourPatch   outlet;
        faces
        (
@@ -118,7 +118,7 @@ boundary
    }
    outlet
    {
-       type cyclic;
+       type 		cyclic;
        neighbourPatch   inlet;
        faces
        (
@@ -132,7 +132,7 @@ boundary
    }
    bottomWall
    {
-       type wall;
+       type 		wall;
        faces
        (
             (1 0 14 15)
@@ -140,7 +140,7 @@ boundary
    }
    topWall
    {
-       type wall;
+       type 		wall;
        faces
        (
             (13 12 26 27)
@@ -148,7 +148,7 @@ boundary
    }
    left
    {
-       type cyclic;
+       type 		cyclic;
        neighbourPatch   right;
        faces
        (
@@ -162,7 +162,7 @@ boundary
    }
    right
    {
-       type cyclic;
+       type 		cyclic;
        neighbourPatch   left;
        faces
        (

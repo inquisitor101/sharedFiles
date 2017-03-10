@@ -11,35 +11,35 @@ FoamFile
 
 
 // Expected turbulent Re(tau) Reynolds number with respect to utau
-Retau 180.0;
+Retau 		180.0;
 
 // Streamwise component of flow. 0=x, 1=y, 2=z
-streamwise 0;
+streamwise 	0;
 
 // Spanwise component of flow. 0=x, 1=y, 2=z
-spanwise 2;
+spanwise 	2;
 
 // Halfheight of channel. This is the direction normal to both streamwise and
 // spanwise directions.
-h 1.0;
+h 		1.0;
 
 // Set (overwrite) velocity to laminar profile
-setBulk true;
+setBulk 	true;
 
 // Perturb velocity with some cosine like perturbations
-perturb true;
+perturb 	true;
 
 // Perturbation properties
 //wall normal circulation as a fraction of Ubar/utau
-duplus 0.25;
+duplus 		0.25;
 //spanwise perturbation spacing in wall units
-betaPlus 200;
+betaPlus 	200;
 //streamwise perturbation spacing in wall units
-alphaPlus 500;
+alphaPlus 	500;
 //transverse decay
-sigma 0.00055;
+sigma 		0.00055;
 //linear perturbation amplitude as a fraction of Ubar
-epsilon 0.005;
+epsilon 	0.005;
 
 
 // ************************************************************************* //

@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.0                                 |
+|  \\    /   O peration     | Version:  3.0.1                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -15,35 +15,35 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     pimpleFoam;
+application     	pimpleFoam;
 
-startFrom       startTime; // latestTime;
+startFrom       	startTime; // latestTime;
 
-startTime       0;
+startTime       	0;
 
-stopAt          endTime;
+stopAt          	endTime;
 
-endTime         500;
+endTime         	500;
 
-deltaT          2.5e-3;
+deltaT          	2.5e-3;
 
-writeControl    timeStep;
+writeControl    	timeStep;
 
-writeInterval   10000;
+writeInterval   	10000;
 
-purgeWrite      0;
+purgeWrite      	0;
 
-writeFormat     ascii;
+writeFormat     	ascii;
 
-writePrecision  6;
+writePrecision  	6;
 
-writeCompression off;
+writeCompression 	off;
  
-timeFormat      general;
+timeFormat      	general;
 
-timePrecision   7;
+timePrecision   	7;
 
-runTimeModifiable true;
+runTimeModifiable 	true;
 
 // adjustTimeStep	yes;
 
@@ -53,35 +53,35 @@ functions
 {
     uTau    
     {
-        type patchExpression;
-        patches ( bottomWall topWall);
-        outputControlMode timeStep;
-        outputInterval 1;
-        expression "sqrt(nu*mag(snGrad(U)))";
-        verbose true;
-        accumulations ( average );
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"sqrt(nu*mag(snGrad(U)))";
+        verbose 		true;
+        accumulations 		( average );
     }
 
     yPlus   
     {
-        type patchExpression;
-        patches ( bottomWall topWall);
-        outputControlMode timeStep;
-        outputInterval 1;
-        expression "dist()/nu*sqrt(nu*mag(snGrad(U)))";
-        verbose true;
-        accumulations ( average );
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"dist()/nu*sqrt(nu*mag(snGrad(U)))";
+        verbose 		true;
+        accumulations 		( average );
     }
 
     ReTau   
     {
-        type patchExpression;
-        patches ( bottomWall topWall);
-        outputControlMode timeStep;
-        outputInterval 1;
-        expression "sqrt(nu*mag(snGrad(U)))/nu";
-        verbose true;
-        accumulations ( average );
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"sqrt(nu*mag(snGrad(U)))/nu";
+        verbose 		true;
+        accumulations 		( average );
     }
 
     fieldAverage
@@ -113,15 +113,15 @@ functions
 
     sampledSurface
     {
-        type surfaces;
-        outputControl timeStep;
-        enabled false;
-        outputInterval 1;
+        type 			surfaces;
+        outputControl 		timeStep;
+        enabled 		false;
+        outputInterval 		1;
 
-        surfaceFormat foamFile;
-        interpolationScheme none;
-        interpolate false;
-        triangulate false;
+        surfaceFormat 		foamFile;
+        interpolationScheme 	none;
+        interpolate 		false;
+        triangulate 		false;
 
         fields
         (

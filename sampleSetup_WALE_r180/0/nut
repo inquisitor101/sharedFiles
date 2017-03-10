@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.0                                 |
+|  \\    /   O peration     | Version:  3.0.1                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -17,25 +17,25 @@ FoamFile
 
 dimensions      [0 2 -1 0 0 0 0];
 
-internalField   uniform 1e-4;
+internalField   uniform 1.506e-5;
 
 boundaryField
 {
     bottomWall
     {
-        type			nutUSpaldingWallFunction;
+        type		nutUSpaldingWallFunction;
         Cmu             0.09;
         kappa           0.42;
         E               8.52;
-        value			uniform 0;
+        value		uniform 0;
     }
     topWall
     {
-        type			nutUSpaldingWallFunction;
+        type		nutUSpaldingWallFunction;
         Cmu             0.09;
         kappa           0.42;
         E               8.52;
-        value			uniform 0;
+        value		uniform 0;
     }
     left
     {

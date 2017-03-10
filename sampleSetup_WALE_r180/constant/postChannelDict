@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.0                                 |
+|  \\    /   O peration     | Version:  3.0.1                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -15,12 +15,12 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 // Seed patches to start layering from
-patches ( bottomWall );
+patches 	( bottomWall );
 
 // Direction in which the layers are
-component y;
+component 	y;
 
 botPatch bottomWall;
-topPatch topWall;
+topPatch 	topWall;
 
-fields  ( UMean UPrime2Mean );
+fields  	( UMean UPrime2Mean );
