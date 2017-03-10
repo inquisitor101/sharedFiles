@@ -55,26 +55,16 @@ LES
 			maxDeltaRatio		1.1;
 		}
 
-		vanDriestCoeffs
+		Cdelta		0.158;
+	}
+	
+	vanDriestCoeffs
+	{
+		delta		cubeRootVol;
+		cubeRootVolCoeffs
 		{
-			delta		cubeRootVol;
-			cubeRootVolCoeffs
-			{
-				deltaCoeff	1;
-			}
-			smoothCoeffs
-			{
-				delta		cubeRootVol;
-				cubeRootVolCoeffs
-				{
-					deltaCoeff	1;
-				}
-				maxDeltaRatio	1.1;
-			}
-			Aplus	26;
-			Cdelta	0.158;
+			deltaCoeff	1;
 		}
-
 		smoothCoeffs
 		{
 			delta		cubeRootVol;
@@ -82,9 +72,22 @@ LES
 			{
 				deltaCoeff	1;
 			}
-			maxDeltaRatio		1.1;
+			maxDeltaRatio	1.1;
 		}
+		Aplus	26;
+		Cdelta	0.158;
 	}
+
+	smoothCoeffs
+	{
+		delta		cubeRootVol;
+		cubeRootVolCoeffs
+		{
+			deltaCoeff	1;
+		}
+		maxDeltaRatio		1.1;
+	}
+	
 }	
 	
 
