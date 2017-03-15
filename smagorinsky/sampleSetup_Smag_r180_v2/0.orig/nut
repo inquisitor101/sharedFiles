@@ -17,24 +17,18 @@ FoamFile
 
 dimensions      [0 2 -1 0 0 0 0];
 
-internalField   uniform 1.506e-5;
+internalField   uniform 0;
 
 boundaryField
 {
     bottomWall
     {
-        type		nutUSpaldingWallFunction;
-        Cmu             0.09;
-        kappa           0.42;
-        E               8.52;
+	type		fixedValue;
         value		uniform 0;
     }
     topWall
     {
-        type		nutUSpaldingWallFunction;
-        Cmu             0.09;
-        kappa           0.42;
-        E               8.52;
+	type		fixedValue;
         value		uniform 0;
     }
     left
