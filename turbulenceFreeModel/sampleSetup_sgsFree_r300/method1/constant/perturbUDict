@@ -11,7 +11,7 @@ FoamFile
 
 
 // Expected turbulent Re(tau) Reynolds number with respect to utau
-Retau 		352.5;
+Retau 		300;
 
 // Streamwise component of flow. 0=x, 1=y, 2=z
 streamwise 	0;
