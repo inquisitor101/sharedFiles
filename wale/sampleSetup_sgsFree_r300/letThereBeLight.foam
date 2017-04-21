@@ -23,11 +23,11 @@ startTime       	0;
 
 stopAt          	endTime;
 
-endTime         	500;
+endTime         	5000;
 
 deltaT          	5e-4;
 
-writeControl    	adjustableRunTime; // timeStep;
+writeControl    	timeStep;
 
 writeInterval   	100;
 
@@ -106,12 +106,7 @@ functions
                 prime2Mean  on;
                 base        time;
             }
-	    nut
-	    {
-		mean	    on;
-		prime2Mean  off;
-		base	    time;
-	    }
+
         );
     }
 

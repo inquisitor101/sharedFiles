@@ -11,16 +11,84 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "constant";
-    object      transportProperties;
+    object      turbulenceProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+simulationType laminar;
 
-Ubar			Ubar [ 0 1 -1 0 0 0 0 ] (1 0 0);
+LES
+{
+	LESModel	WALE; // Smagorinsky;
+	
+	turbulence	on;
 
-transportModel  	Newtonian;
+	printCoeffs	on;
 
-nu			nu [ 0 2 -1 0 0 0 0 ] 	1.9922e-04;
+	delta		cubeRootVol;
 
+	dynamicKEqnCoeffs
+	{
+		filter		simple;
+	}
+
+	cubeRootVolCoeffs
+	{
+		deltaCoeff	1;
+	}
+	
+	PrandtlCoeffs
+	{
+		delta	cubeRootVol;
+		cubeRootVolCoeffs
+		{
+			deltaVoeff	1;
+		}
+
+		smoothCoeffs
+		{
+			delta		cubeRootVol;
+			cubeRootVolCoeffs
+			{
+				deltaCoeff	1;
+			}
+			maxDeltaRatio		1.1;
+		}
+
+		Cdelta		0.158;
+	}
+	
+	vanDriestCoeffs
+	{
+		delta		cubeRootVol;
+		cubeRootVolCoeffs
+		{
+			deltaCoeff	1;
+		}
+		smoothCoeffs
+		{
+			delta		cubeRootVol;
+			cubeRootVolCoeffs
+			{
+				deltaCoeff	1;
+			}
+			maxDeltaRatio	1.1;
+		}
+		Aplus	26;
+		Cdelta	0.158;
+	}
+
+	smoothCoeffs
+	{
+		delta		cubeRootVol;
+		cubeRootVolCoeffs
+		{
+			deltaCoeff	1;
+		}
+		maxDeltaRatio		1.1;
+	}
+	
+}	
+	
 
 // ************************************************************************* //

@@ -10,17 +10,26 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "constant";
-    object      transportProperties;
+    location    "system";
+    object      fvOptions;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-Ubar			Ubar [ 0 1 -1 0 0 0 0 ] (1 0 0);
 
-transportModel  	Newtonian;
+momentumSource
+{
+   type            meanVelocityForce;
+   active          on;            //on/off switch
+   
+   meanVelocityForceCoeffs
+   {
+       	selectionMode	all;
+   	fieldNames	(U);
+       	Ubar        	( 1 0 0 );
+   }
+}
 
-nu			nu [ 0 2 -1 0 0 0 0 ] 	1.9922e-04;
 
 
 // ************************************************************************* //

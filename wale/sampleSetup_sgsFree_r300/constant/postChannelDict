@@ -10,17 +10,17 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "constant";
-    object      transportProperties;
+    object      postChannelDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+// Seed patches to start layering from
+patches 	( bottomWall );
 
-Ubar			Ubar [ 0 1 -1 0 0 0 0 ] (1 0 0);
+// Direction in which the layers are
+component 	y;
 
-transportModel  	Newtonian;
+botPatch 	bottomWall;
+topPatch 	topWall;
 
-nu			nu [ 0 2 -1 0 0 0 0 ] 	1.9922e-04;
-
-
-// ************************************************************************* //
+fields  	( UMean UPrime2Mean );
