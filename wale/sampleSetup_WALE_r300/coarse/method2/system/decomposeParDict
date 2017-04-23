@@ -23,7 +23,7 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-numberOfSubdomains 32;
+numberOfSubdomains 16;
 
 preservePatches (inlet outlet);
 

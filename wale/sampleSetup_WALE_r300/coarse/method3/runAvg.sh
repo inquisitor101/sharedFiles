@@ -10,10 +10,10 @@
 #SBATCH --nodes=1
 
 # Number of MPI processes per node (default 32)
-#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks-per-node=16
 
 # Number of cores to be allocated
-NCORES=32
+NCORES=16
 
 # Swap to PrgEnv-gnu 
 module swap PrgEnv-cray PrgEnv-gnu
@@ -26,4 +26,5 @@ module load openfoam/3.0.1
 
 # Start the OpenFOAM job
 aprun -n $NCORES pimpleFoam -parallel > logFiles/runAvg.log
-aprun reconstructPar -latestTime 
+aprun reconstructPar -latestTime
+aprun postChannelFlow 
