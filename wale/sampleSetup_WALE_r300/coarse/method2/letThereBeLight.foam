@@ -1,0 +1,149 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     	pimpleFoam;
+
+startFrom       	startTime; // latestTime;
+
+startTime       	0;
+
+stopAt          	endTime;
+
+endTime         	5000;
+
+deltaT          	5e-4;
+
+writeControl    	timeStep;
+
+writeInterval   	100;
+
+purgeWrite      	0;
+
+writeFormat     	ascii;
+
+writePrecision  	6;
+
+writeCompression 	off;
+ 
+timeFormat      	general;
+
+timePrecision   	7;
+
+runTimeModifiable 	true;
+
+adjustTimeStep		yes;
+
+maxCo			0.5;
+
+functions
+{
+    uTau    
+    {
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"sqrt(nu*mag(snGrad(U)))";
+        verbose 		true;
+        accumulations 		( average );
+    }
+
+    yPlus   
+    {
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"dist()/nu*sqrt(nu*mag(snGrad(U)))";
+        verbose 		true;
+        accumulations 		( average );
+    }
+
+    ReTau   
+    {
+        type 			patchExpression;
+        patches 		( bottomWall topWall);
+        outputControlMode 	timeStep;
+        outputInterval 		1;
+        expression 		"sqrt(nu*mag(snGrad(U)))/nu";
+        verbose 		true;
+        accumulations 		( average );
+    }
+
+    fieldAverage
+    {
+        type            	fieldAverage;
+        functionObjectLibs 	( "libfieldFunctionObjects.so" );
+        enabled         	false;
+        outputControl   	outputTime;
+        resetOnRestart 		false;
+
+        fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            p
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+        );
+    }
+
+
+    sampledSurface
+    {
+        type 			surfaces;
+        outputControl 		timeStep;
+        enabled 		false;
+        outputInterval 		1;
+
+        surfaceFormat 		foamFile;
+        interpolationScheme 	none;
+        interpolate 		false;
+        triangulate 		false;
+
+        fields
+        (
+            U
+        );
+
+        surfaces 
+        (
+            inletSurface
+            {
+                type patch;
+                patches (inlet);
+            }
+        );
+    }
+}
+
+libs (
+    "libOpenFOAM.so"
+    "libsimpleFunctionObjects.so"
+    "libsimpleSwakFunctionObjects.so"
+    "libswakFunctionObjects.so"
+    );
+
+// ************************************************************************* //

@@ -1,0 +1,10 @@
+Briefly, the description of this problem is:
+
+ReTau (targeted) = 300
+\Delta_xPlus     = 20
+\Delta_zPlus     = 20
+\Delta_yPlus is performed using a 1-partition symmetric grid (method 3)
+nu               = 1.9922e-4
+Ub               = 1
+\delta           = 1
+channel dimensions = 9-by-2-by-4  (x, y, z)
