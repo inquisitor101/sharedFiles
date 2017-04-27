@@ -3,33 +3,27 @@ clear all
 close all
 clc
 
-% max # of simulations
-maxSim    = 7;
-
-% fixed parameters 
-nu_LES    = 1.506e-5;
-delta_LES = 0.0134;
-Ub_LES    = 6.7123;
 
 % base folder directory
-baseFile = '~/thesis/beskowFiles/channelFlow/multiChan';
+baseFile = '~/thesis/beskowFiles/channelFlow/multiChan/files2pp';
 
 % available simulation files
-allFiles = {'chan610r', 'eddsTry_m1',...
-            'eddsTry_m2', 'eddsTry_m3',...
-            'eddsTry_coarse_m1',...
-            'eddsTry_coarse_m2',...
-            'eddsTry_coarse_m3'};
+tempFiles = dir(baseFile);
+tempFiles(1:2) = [];          % delete the '.' and '..' directories
+isFolder = [tempFiles.isdir]; % don't consider .mat files
+availFiles = tempFiles(isFolder);
 
-% averaging times (uTau)
-avgTimes = {'32.5', '1000', '1000',...
-            '1000', '1000', '1000',...
-            '1000'};
+% max # of simulations (disregarding .mat files)
+maxSim = length(availFiles);
+allFiles = strings(maxSim, 1);
+for i=1:maxSim
+    allFiles{i} = availFiles(i).name;
+end
 
-% averaged profiles (<uu>)
-avgProfs = {'32.5', '1249.92', '1249.35',...
-            '1249.91', '1249.92', '1249.78',...
-            '1249.42'};
+% initialize avgProfs and avgTimes
+avgTimes = strings(maxSim, 1);
+avgProfs = strings(maxSim, 1);
+
 
 % Reynolds stresses
 ReStress = {'UPrime2Mean_XX.xy', 'UPrime2Mean_YY.xy',...
@@ -39,10 +33,22 @@ ReStress = {'UPrime2Mean_XX.xy', 'UPrime2Mean_YY.xy',...
 fileUpdate = strcat(baseFile, '/DNS_chan300.mat');
 load(fileUpdate);
 
-
 % loop across all 'i' simulations
 for i=1:maxSim
    
+    % modify physical parameters according to simulation
+    if isequal(allFiles{i}, 'chan610r')
+        % Saleh's simulation
+        nu_LES    = 1.506e-5;
+        delta_LES = 0.0134;
+        Ub_LES    = 6.7123;
+    else
+        % Edmond's simulation
+        delta_LES = 1;
+        nu_LES    = 1.9922e-4;
+        Ub_LES    = 1;
+    end
+    
     % current simulation file
     simFile = strcat(baseFile, '/', allFiles{i}, '/postProcessing');
     
@@ -51,6 +57,17 @@ for i=1:maxSim
     %
     % surf until the averaging time
     thisFile = strcat(simFile, '/patchExpression_uTau/');
+    
+    % get averaging time used in uTau
+    thisDir = dir(thisFile);
+    thisDir(1:2) = []; % delete the '.' and '..' directories
+    someFiles = zeros(length(thisDir), 1);
+    for k=1:length(thisDir)
+        someFiles(k, 1) = str2double(thisDir(k).name);
+    end
+    avgTimes{i} = num2str(max(someFiles));
+    
+    
     thisFile1 = strcat(thisFile, avgTimes{i}, '/bottomWall');
     % get uTau_LES bottom
     temp = importdata(thisFile1, ' ', 1);
@@ -74,6 +91,18 @@ for i=1:maxSim
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     % get Reynolds stresses
     %
+    % get averaged profiles starting time
+    thisFile = strcat(simFile, '/collapsedFields/');
+    
+    thisDir = dir(thisFile);
+    thisDir(1:2) = []; % delete the '.' and '..' directories
+    theseFiles = zeros(length(thisDir), 1);
+    for k=1:length(thisDir)
+        theseFiles(k, 1) = str2double(thisDir(k).name);
+    end
+    avgProfs{i} = num2str(max(theseFiles));
+    
+    
     % enter collapsedFields directory
     thisFile = strcat(simFile, '/collapsedFields/', avgProfs{i}, '/');
 
@@ -88,13 +117,6 @@ for i=1:maxSim
         temp = temp.data;
         
         y_LES = temp(1:end/2, 1);
-        
-        % eddsTry data ! (simulation #7)
-        if i>1
-            delta_LES = 1;
-            nu_LES    = 1.6526e-4;
-            Ub_LES    = 1;
-        end
         
         ydelta_LES = y_LES/delta_LES;
         yPlus_LES  = y_LES*uTau_LES/nu_LES;
@@ -135,25 +157,11 @@ for i=1:maxSim
 
     xlabel('yPlus')
     ylabel('<u_i u_j>/uTau^2')
-    switch i
-        case 1
-            title('DNS vs LES for chan610r')
-        case 2
-            title('DNS vs LES for eddsTry\_method1 fine grid')
-        case 3
-            title('DNS vs LES for eddsTry\_method2 fine grid')
-        case 4
-            title('DNS vs LES for eddsTry\_method3 fine grid')
-        case 5
-            title('DNS vs LES for eddsTry\_method1 coarse grid')
-        case 6
-            title('DNS vs LES for eddsTry\_method2 coarse grid')
-        case 7
-            title('DNS vs LES for eddsTry\_method3 coarse grid')
-        otherwise
-            disp('Unknown input in switch statement');
-    end
-    legend('uu DNS', 'uu LES', 'vv DNS', 'vv LES', 'ww DNS', 'ww LES', '-uv DNS', '-uv LES')
+
+    title(['DNS vs LES for ', allFiles{i}], 'interpreter', 'none')
+
+    legend('uu DNS', 'uu LES', 'vv DNS', 'vv LES',...
+           'ww DNS', 'ww LES', '-uv DNS', '-uv LES')
     set(gca,'fontsize',14)
     xlim([0.1, max(yPlus_LES)])
     grid on 
@@ -186,7 +194,9 @@ for i=1:maxSim
     xlabel('y/delta')
     ylabel('<u_i u_j>/Ub^2')
 
-    legend('uu DNS', 'uu LES', 'vv DNS', 'vv LES', 'ww DNS', 'ww LES', '-uv DNS', '-uv LES')
+    legend('uu DNS', 'uu LES', 'vv DNS',...
+           'vv LES', 'ww DNS', 'ww LES',...
+           '-uv DNS', '-uv LES')
     set(gca,'fontsize',14)
     grid on 
     grid minor
@@ -220,10 +230,13 @@ semilogx(yPlus, u_mean)
 semilogx(yPlus, logLaw, 'k')
 xlabel('yPlus')
 ylabel('uPlus')
-legend('chan610r', 'eddsTry\_fineMethod1',...
-       'eddsTry\_fineMethod2', 'eddsTry\_fineMethod3',...
-       'eddsTry\_coarseMethod1', 'eddsTry\_coarseMethod2',...
-       'eddsTry\_coarseMethod3', 'DNS', 'log-law');
+title('inner-scaled U-velocity as a function of wall units')
+
+legendNames = strings(maxSim+2, 1);
+legendNames(1:maxSim) = allFiles;
+legendNames(maxSim+1) = 'DNS';
+legendNames(end)      = 'log-law';
+legend(legendNames);
 xlim([1, max(yPlus)])
 set(gca,'fontsize',16)
 grid on
